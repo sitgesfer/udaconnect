@@ -1,0 +1,17 @@
+##Locations service: Kafka
+
+As the business requirements indicate, the application will be deployed at large scale. To refactor this service I have chosen Kafka.
+
+The locations REST service is one of the weakest points, because of its potential demand, there could be performance issues if too many people are sending their locations at the same time through their mobile devices. As it is REST's nature, each location request will expect an HTTP response that is not necessary.
+
+The process of sending locations is basically **event streaming**: large amount of locations will continuously be fed to the API. Kafka has proven to be a leading event streaming platform, I'm sure it will improve performance significantly by fastly enqueuing all the locations. A Kafka consumer will be in charge of validating that the location request has the required fields, them sending it directly to the location REST API.
+
+##Connections: gRPC 
+
+gRPC is known to provide a greater performance over REST as well as having a smaller message size, also it integrates better with mobile apps.
+
+In this case, as a first step into migrating the whole API to gRPS, we will create a new connections service, which will be eventually consumed by the mobile app and the front end, it will act as a bridge between gRPC and REST.
+
+##REST API improvement
+
+Currently the REST API requires some improvement mainly in error management, for example, when trying to get a non existing location I've added an error control so it returns an empty object.

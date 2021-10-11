@@ -1,0 +1,39 @@
+# This deployment is separate in this directory as it will be used to test kafka consumer
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: udaconnect-grpc
+  name: udaconnect-grpc
+spec:
+  type: NodePort
+  ports:
+  - name: "5005"
+    port: 5005
+    targetPort: 5005
+    nodePort: 31285
+  selector:
+    service: udaconnect-grpc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: udaconnect-grpc
+  name: udaconnect-grpc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: udaconnect-grpc
+  template:
+    metadata:
+      labels:
+        service: udaconnect-grpc
+    spec:
+      containers:
+      - image: sitgesfer/grpc:latest
+        name: udaconnect-grpc
+        imagePullPolicy: Always
+      restartPolicy: Always

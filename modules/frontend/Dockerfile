@@ -1,9 +1,8 @@
-FROM node:14.8.0-alpine3.12
+FROM node:14-alpine
 
 WORKDIR .
 
 COPY package.json ./
-COPY package-lock.json ./
 
 RUN npm install
 RUN npm install react-scripts@3.4.3 -g

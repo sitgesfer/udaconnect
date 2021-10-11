@@ -84,14 +84,17 @@ class ConnectionService:
 class LocationService:
     @staticmethod
     def retrieve(location_id) -> Location:
-        location, coord_text = (
-            db.session.query(Location, Location.coordinate.ST_AsText())
-            .filter(Location.id == location_id)
-            .one()
-        )
+        # Improvement: Return an empty value instead of a 500 error
+        dbquery = db.session.query(Location, Location.coordinate.ST_AsText()).filter(Location.id == location_id)
+        if dbquery.first() is None:
+            location = None
+        else:
+            location, coord_text = (
+                dbquery.one()
+            )
+            # Rely on database to return text form of point to reduce overhead of conversion in app code
+            location.wkt_shape = coord_text
 
-        # Rely on database to return text form of point to reduce overhead of conversion in app code
-        location.wkt_shape = coord_text
         return location
 
     @staticmethod

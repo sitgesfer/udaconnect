@@ -1,0 +1,42 @@
+# This deployment is separate in this directory as it will be used to test kafka consumer
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: testapi
+  name: testapi
+spec:
+  type: NodePort
+  ports:
+  - name: "9092"
+    port: 9092
+    targetPort: 9092
+  - name: "5050"
+    port: 5050
+    targetPort: 5000
+    nodePort: 30050
+  selector:
+    service: testapi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: testapi
+  name: testapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: testapi
+  template:
+    metadata:
+      labels:
+        service: testapi
+    spec:
+      containers:
+      - image: sitgesfer/testapi
+        name: testapi
+        imagePullPolicy: Always
+      restartPolicy: Always
