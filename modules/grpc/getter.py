@@ -3,10 +3,12 @@
 import grpc
 import connection_pb2
 import connection_pb2_grpc
+import os
 
 print("Sending test payload...")
 
-channel = grpc.insecure_channel("localhost:5005")
+grpcport = os.getenv('UDACONNECT_GRPC_SERVICE_PORT')
+channel = grpc.insecure_channel("localhost:{grpcport}".format(grpcport = grpcport))
 stub = connection_pb2_grpc.ConnectionServiceStub(channel)
 
 response = stub.Get(connection_pb2.ConnectionRequest(

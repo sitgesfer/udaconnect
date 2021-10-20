@@ -59,6 +59,25 @@
 			"response": []
 		},
 		{
+			"name": "Person delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/api/persons/1",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"api",
+						"persons",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Location",
 			"request": {
 				"method": "GET",

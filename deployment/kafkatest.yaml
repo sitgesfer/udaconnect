@@ -4,39 +4,35 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    service: testapi
-  name: testapi
+    service: kafkatest
+  name: kafkatest
 spec:
   type: NodePort
   ports:
   - name: "9092"
     port: 9092
     targetPort: 9092
-  - name: "5050"
-    port: 5050
-    targetPort: 5000
-    nodePort: 30050
   selector:
-    service: testapi
+    service: kafkatest
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    service: testapi
-  name: testapi
+    service: kafkatest
+  name: kafkatest
 spec:
   replicas: 1
   selector:
     matchLabels:
-      service: testapi
+      service: kafkatest
   template:
     metadata:
       labels:
-        service: testapi
+        service: kafkatest
     spec:
       containers:
-      - image: sitgesfer/testapi
-        name: testapi
+      - image: sitgesfer/kafkatest
+        name: kafkatest
         imagePullPolicy: Always
       restartPolicy: Always

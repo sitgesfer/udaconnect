@@ -1,0 +1,18 @@
+Testing kafka
+=============
+
+A deployment "kafkatest" has been added to original deployments, it runs kafkaproducer.py that when it gets a
+ message it sends a location request to the API locations endpoint.
+
+kafkaconsumer.py sends the message to Kafka propducer, this can be run directly either bashing into the pod or
+executing a command.
+
+e.g. kubectl exec -i kafkatest-56c8d758d7-phjj2 -- bash -c "python3 kafkaproducer.py"
+
+Testing grpc
+============
+
+Same way that kafka, execute grpc getter that will make a request to the API.
+
+e.g. kubectl exec -i udaconnect-grpc-775b4969f8-kc6sm -- bash -c "python3 getter.py"
+

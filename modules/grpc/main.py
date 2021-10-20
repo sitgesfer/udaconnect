@@ -7,9 +7,11 @@ import json
 import grpc
 import connection_pb2
 import connection_pb2_grpc
+import os
 
-
-API_URL = 'http://localhost:5000/api/persons/{person_id}/connection'
+API_URL = "http://{host}:{port}/api/persons/".format(host=os.getenv('UDACONNECT_API_SERVICE_HOST'),
+                                                      port=os.getenv('UDACONNECT_API_SERVICE_PORT'))
+API_URL = API_URL + '{person_id}/connection'
 
 
 class ConnectionServicer(connection_pb2_grpc.ConnectionServiceServicer):
@@ -47,8 +49,9 @@ class ConnectionServicer(connection_pb2_grpc.ConnectionServiceServicer):
 server = grpc.server(futures.ThreadPoolExecutor(max_workers=2))
 connection_pb2_grpc.add_ConnectionServiceServicer_to_server(ConnectionServicer(), server)
 
-print("Server starting on port 5005...")
-server.add_insecure_port("[::]:5005")
+grpcport = os.getenv('UDACONNECT_GRPC_SERVICE_PORT')
+print("Server starting on port {grpcport}".format(grpcport = grpcport))
+server.add_insecure_port("[::]:{grpcport}".format(grpcport = grpcport))
 server.start()
 # Keep thread alive
 try:

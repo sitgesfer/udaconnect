@@ -135,3 +135,13 @@ class PersonService:
     @staticmethod
     def retrieve_all() -> List[Person]:
         return db.session.query(Person).all()
+
+    @staticmethod
+    def delete(person_id: int) -> Person:
+        dbquery = db.session.query(Person).get(person_id)
+        if dbquery is None:
+            return None
+        else:
+            Person.query.filter_by(id=person_id).delete()
+            db.session.commit()
+            return person_id

@@ -17,14 +17,13 @@ locations = [
     }
 ]
 
+try:
+    producer = KafkaProducer(bootstrap_servers=[KAFKA_SERVER], value_serializer=lambda v: json.dumps(v).encode('utf-8'))
+except Exception as err:
+    print(str(err))
+    exit()
 
-def kafkaproducer():
-    try:
-        producer = KafkaProducer(bootstrap_servers=[KAFKA_SERVER], value_serializer=lambda v: json.dumps(v).encode('utf-8'))
-    except Exception as err:
-        return str(err)
-
-    for location in locations:
-        producer.send(TOPIC_NAME, location)
+for location in locations:
+    producer.send(TOPIC_NAME, location)
     producer.flush()
-    return "Message(s) sent to Kafka!"
+print("Location sent to Kafka!")

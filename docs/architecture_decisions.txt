@@ -15,3 +15,5 @@ In this case, as a first step into migrating the whole API to gRPS, we will crea
 ##REST API improvement
 
 Currently the REST API requires some improvement mainly in error management, for example, when trying to get a non existing location I've added an error control so it returns an empty object.
+
+Also, a new endpoint has been added to the API to delete a person, this is necessary when someone stops using our app.
